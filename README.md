@@ -27,5 +27,5 @@ csv_data
 ② ターミナルにて、下記を実行。
 ```shell
 # bash使用の場合
-bash ~/クローン先のパス/tile/bin/tile.sh
+bash ~/Desktop/CreateTile/bin/tile.sh
 ```
