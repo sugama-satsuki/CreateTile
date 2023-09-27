@@ -3,6 +3,7 @@ excelファイル、csvファイル、geojsonファイルからpmtilesを作成�
 
 ## 使い方
 ``` shell
+cd ~/Desktop
 git clone https://github.com/sugama-satsuki/CreateTile.git
 ```
 テストデータとして、excelファイルcsvファイルを置いています。
