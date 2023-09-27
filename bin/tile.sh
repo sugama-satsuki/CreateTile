@@ -17,7 +17,6 @@ function makeTile(){
         mv $csv ../csv_data
     done
 
-
     cd ../csv_data
 
     # csvファイルのみ取得し、geojsonに変換
@@ -29,6 +28,7 @@ function makeTile(){
         filename=`basename $line .csv`
         geojson=$filename".geojson"
         ogr2ogr -f GeoJSON $geojson $line -oo X_POSSIBLE_NAMES=lat* -oo Y_POSSIBLE_NAMES=lon*
+        if [ ! -e ../geojson_data ]; then mkdir ../geojson_data ; fi
         mv $geojson ../geojson_data
     done
 
@@ -40,6 +40,7 @@ function makeTile(){
         filename=`basename $line .geojson`
         tile=$filename".pmtiles"
         tippecanoe -o $tile $line
+        if [ ! -e ../tile_data ]; then mkdir ../tile_data ; fi
         mv $tile ../tile_data
         echo $tile
     done
