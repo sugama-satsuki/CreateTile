@@ -20,6 +20,7 @@ function csvToGeojson() {
 
     ogr2ogr -f GeoJSON $geojson $1 -oo X_POSSIBLE_NAMES=lat* -oo Y_POSSIBLE_NAMES=lon*
     if [ ! -e ../geojson_data ]; then mkdir ../geojson_data ; fi
+    mv -f $geojson ../geojson_data
 }
 
 # geojsonファイルからpmtilesを生成
@@ -28,6 +29,7 @@ function geojsonToTile() {
     tile=$filename".pmtiles"
     tippecanoe -o $tile $1
     if [ ! -e ../tile_data ]; then mkdir ../tile_data ; fi
+    mv -f $tile ../tile_data
 }
 
 
