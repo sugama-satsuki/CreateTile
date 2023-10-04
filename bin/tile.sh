@@ -13,7 +13,6 @@ function excelToCsv() {
 # csvファイルからgeojsonファイルを生成
 function csvToGeojson() {
     filename=$(basename $1 .csv)
-    echo "-----"$filename"-----"
     geojson=$filename".geojson"
     sed -i '' "s/緯度/lat/" $1
     sed -i '' "s/経度/lon/" $1
@@ -25,11 +24,10 @@ function csvToGeojson() {
 
 # geojsonファイルからpmtilesを生成
 function geojsonToTile() {
-    filename=$(basename $1 .geojson)
-    tile=$filename".pmtiles"
-    tippecanoe -o $tile $1
+    fileName='sample.pmtiles'
+    tippecanoe -zg -o $fileName ../geojson_data/*
     if [ ! -e ../tile_data ]; then mkdir ../tile_data ; fi
-    mv -f $tile ../tile_data
+    mv -f $fileName ../tile_data
 }
 
 
@@ -37,6 +35,9 @@ function geojsonToTile() {
 function makeTile(){
 
     cd ~/Desktop/CreateTile/data
+
+    if [ -e ../geojson_data ]; then rm -rf ../geojson_data ; fi
+    if [ -e ../tile_data ]; then rm -rf ../tile_data ; fi    
 
     ls | while read line
     do
@@ -46,20 +47,13 @@ function makeTile(){
         case $extension in
             ".xlsx") echo "1"$line
                     excelToCsv $line
-                    csvToGeojson $filename".csv"
-                    break;;
+                    csvToGeojson $filename".csv";;
             ".csv") echo $line
-                    csvToGeojson $line
-                    break;;
-            ".geojson") ;;
+                    csvToGeojson $line;;
         esac
     done
 
-
-    # TODO：errorログの出力
-    # if [[ $2 != "" ]]; then
-    #    echo -e "$2" | tee -a $LOG_ERR
-    # fi
+    geojsonToTile
 
 }
 
